@@ -10,12 +10,11 @@ import com.google.gson.*;
 
 /**
  * The object you should build for sending a push.
- * 
+ * <p>
  * Basically start with newBuilder() method to build a PushPayload object.
- * 
+ * <p>
  * alertAll() is a shortcut for quickly build payload of alert to all platform and all audience;
  * mesageAll() is a shortcut for quickly build payload of message to all platform and all audience.
- * 
  */
 public class PushPayload implements PushModel {
     private static final String PLATFORM = "platform";
@@ -25,12 +24,12 @@ public class PushPayload implements PushModel {
     private static final String OPTIONS = "options";
     private static final String SMS = "sms_message";
     private static final String CID = "cid";
-    
+
     private static final int MAX_GLOBAL_ENTITY_LENGTH = 4000;  // Definition acording to JPush Docs
     private static final int MAX_IOS_PAYLOAD_LENGTH = 2000;  // Definition acording to JPush Docs
-    
-    private static Gson _gson = new GsonBuilder().disableHtmlEscaping().create(); 
-    
+
+    private static Gson _gson = new GsonBuilder().disableHtmlEscaping().create();
+
     private final Platform platform;
     private final Audience audience;
     private final Notification notification;
@@ -38,8 +37,8 @@ public class PushPayload implements PushModel {
     private Options options;
     private SMS sms;
     private String cid;
-    
-    
+
+
     private PushPayload(Platform platform, Audience audience,
                         Notification notification, Message message, Options options, SMS sms, String cid) {
         this.platform = platform;
@@ -53,22 +52,24 @@ public class PushPayload implements PushModel {
 
     /**
      * The entrance for building a PushPayload object.
+     *
      * @return PushPayload builder
      */
     public static Builder newBuilder() {
         return new Builder();
     }
-    
+
     /**
      * The shortcut of building a simple alert notification object to all platforms and all audiences
+     *
      * @param alert The alert message.
      * @return PushPayload
      */
     public static PushPayload alertAll(String alert) {
         return new Builder()
-            .setPlatform(Platform.all())
-            .setAudience(Audience.all())
-            .setNotification(Notification.alert(alert)).build();
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setNotification(Notification.alert(alert)).build();
     }
 
     public static PushPayload alertAll(String alert, SMS sms) {
@@ -79,17 +80,18 @@ public class PushPayload implements PushModel {
                 .setSMS(sms)
                 .build();
     }
-    
+
     /**
      * The shortcut of building a simple message object to all platforms and all audiences
+     *
      * @param msgContent The message content.
      * @return PushPayload
      */
     public static PushPayload messageAll(String msgContent) {
         return new Builder()
-            .setPlatform(Platform.all())
-            .setAudience(Audience.all())
-            .setMessage(Message.content(msgContent)).build();
+                .setPlatform(Platform.all())
+                .setAudience(Audience.all())
+                .setMessage(Message.content(msgContent)).build();
     }
 
     public static PushPayload messageAll(String msgContent, SMS sms) {
@@ -100,11 +102,11 @@ public class PushPayload implements PushModel {
                 .setSMS(sms)
                 .build();
     }
-    
+
     public static PushPayload fromJSON(String payloadString) {
         return _gson.fromJson(payloadString, PushPayload.class);
     }
-    
+
     public void resetOptionsApnsProduction(boolean apnsProduction) {
         if (null == options) {
             options = Options.newBuilder().setApnsProduction(apnsProduction).build();
@@ -112,7 +114,7 @@ public class PushPayload implements PushModel {
             options.setApnsProduction(apnsProduction);
         }
     }
-    
+
     public void resetOptionsTimeToLive(long timeToLive) {
         if (null == options) {
             options = Options.newBuilder().setTimeToLive(timeToLive).build();
@@ -120,7 +122,7 @@ public class PushPayload implements PushModel {
             options.setTimeToLive(timeToLive);
         }
     }
-    
+
     public int getSendno() {
         if (null != options) {
             return options.getSendno();
@@ -131,7 +133,7 @@ public class PushPayload implements PushModel {
     public Audience getAudience() {
         return audience;
     }
-    
+
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
@@ -156,7 +158,7 @@ public class PushPayload implements PushModel {
         if (null != cid) {
             json.addProperty(CID, cid);
         }
-                
+
         return json;
     }
 
@@ -180,7 +182,7 @@ public class PushPayload implements PushModel {
         }
         return false;
     }
-    
+
     public boolean isIosExceedLength() {
         JsonObject payload = (JsonObject) this.toJSON();
         if (payload.has(NOTIFICATION)) {
@@ -201,12 +203,12 @@ public class PushPayload implements PushModel {
         }
         return false;
     }
-    
+
     @Override
     public String toString() {
         return _gson.toJson(toJSON());
     }
-    
+
     public static class Builder {
         private Platform platform = null;
         private Audience audience = null;
@@ -215,27 +217,27 @@ public class PushPayload implements PushModel {
         private Options options = null;
         private SMS sms = null;
         private String cid;
-        
+
         public Builder setPlatform(Platform platform) {
             this.platform = platform;
             return this;
         }
-        
+
         public Builder setAudience(Audience audience) {
             this.audience = audience;
             return this;
         }
-        
+
         public Builder setNotification(Notification notification) {
             this.notification = notification;
             return this;
         }
-        
+
         public Builder setMessage(Message message) {
             this.message = message;
             return this;
         }
-        
+
         public Builder setOptions(Options options) {
             this.options = options;
             return this;
@@ -252,14 +254,14 @@ public class PushPayload implements PushModel {
         }
 
         public PushPayload build() {
-            Preconditions.checkArgument(! (null == audience || null == platform), "audience and platform both should be set.");
-            Preconditions.checkArgument(! (null == notification && null == message), "notification or message should be set at least one.");
-            
+            Preconditions.checkArgument(!(null == audience || null == platform), "audience and platform both should be set.");
+            Preconditions.checkArgument(!(null == notification && null == message), "notification or message should be set at least one.");
+
             // if options is not set, a sendno will be generated for tracing easily
             if (null == options) {
                 options = Options.sendno();
             }
-            
+
             return new PushPayload(platform, audience, notification, message, options, sms, cid);
         }
     }

@@ -14,7 +14,7 @@ import java.util.Map;
 public abstract class PlatformNotification implements PushModel {
     public static final String ALERT = "alert";
     private static final String EXTRAS = "extras";
-    
+
     protected static final Logger LOG = LoggerFactory.getLogger(PlatformNotification.class);
 
     private Object alert;
@@ -22,24 +22,24 @@ public abstract class PlatformNotification implements PushModel {
     private final Map<String, Number> numberExtras;
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
-    
+
     public PlatformNotification(Object alert, Map<String, String> extras,
-    		Map<String, Number> numberExtras, 
-    		Map<String, Boolean> booleanExtras, 
-    		Map<String, JsonObject> jsonExtras) {
+                                Map<String, Number> numberExtras,
+                                Map<String, Boolean> booleanExtras,
+                                Map<String, JsonObject> jsonExtras) {
         this.alert = alert;
         this.extras = extras;
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
         this.jsonExtras = jsonExtras;
     }
-    
+
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
-        
+
         if (null != alert) {
-            if ( alert instanceof JsonObject) {
+            if (alert instanceof JsonObject) {
                 json.add(ALERT, (JsonObject) alert);
             } else if (alert instanceof IosAlert) {
                 json.add(ALERT, ((IosAlert) alert).toJSON());
@@ -52,7 +52,7 @@ public abstract class PlatformNotification implements PushModel {
         if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             extrasObject = new JsonObject();
         }
-        
+
         if (null != extras) {
             String value = null;
             for (String key : extras.keySet()) {
@@ -89,43 +89,43 @@ public abstract class PlatformNotification implements PushModel {
                 }
             }
         }
-        
+
         if (null != extras || null != numberExtras || null != booleanExtras || null != jsonExtras) {
             json.add(EXTRAS, extrasObject);
         }
-        
+
         return json;
     }
-    
+
     protected Object getAlert() {
         return this.alert;
     }
-    
+
     protected void setAlert(Object alert) {
         this.alert = alert;
     }
 
     protected abstract String getPlatform();
-    
+
     protected abstract static class Builder<T extends PlatformNotification, B extends Builder<T, B>> {
-    	private B theBuilder;
-    	
+        private B theBuilder;
+
         protected Object alert;
         protected Map<String, String> extrasBuilder;
         protected Map<String, Number> numberExtrasBuilder;
         protected Map<String, Boolean> booleanExtrasBuilder;
         protected Map<String, JsonObject> jsonExtrasBuilder;
-        
-        public Builder () {
-        	theBuilder = getThis();
+
+        public Builder() {
+            theBuilder = getThis();
         }
-        
+
         protected abstract B getThis();
-        
+
         public abstract B setAlert(Object alert);
-                
+
         public B addExtra(String key, String value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (null == value) {
                 LOG.debug("Extra value is null, throw away it.");
                 return theBuilder;
@@ -142,7 +142,7 @@ public abstract class PlatformNotification implements PushModel {
                 LOG.warn("Null extras param. Throw away it.");
                 return theBuilder;
             }
-            
+
             if (null == extrasBuilder) {
                 extrasBuilder = new HashMap<String, String>();
             }
@@ -151,9 +151,9 @@ public abstract class PlatformNotification implements PushModel {
             }
             return theBuilder;
         }
-        
+
         public B addExtra(String key, Number value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (null == value) {
                 LOG.debug("Extra value is null, throw away it.");
                 return theBuilder;
@@ -164,9 +164,9 @@ public abstract class PlatformNotification implements PushModel {
             numberExtrasBuilder.put(key, value);
             return theBuilder;
         }
-        
+
         public B addExtra(String key, Boolean value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (null == value) {
                 LOG.debug("Extra value is null, throw away it.");
                 return theBuilder;
@@ -177,22 +177,22 @@ public abstract class PlatformNotification implements PushModel {
             booleanExtrasBuilder.put(key, value);
             return theBuilder;
         }
-        
+
         public B addExtra(String key, JsonObject value) {
-            Preconditions.checkArgument(! (null == key), "Key should not be null.");
+            Preconditions.checkArgument(!(null == key), "Key should not be null.");
             if (null == value) {
                 LOG.debug("Extra value is null, throw away it.");
                 return theBuilder;
             }
             if (null == jsonExtrasBuilder) {
-            	jsonExtrasBuilder = new HashMap<String, JsonObject>();
+                jsonExtrasBuilder = new HashMap<String, JsonObject>();
             }
             jsonExtrasBuilder.put(key, value);
             return theBuilder;
         }
-                
+
         public abstract T build();
     }
 
-    
+
 }

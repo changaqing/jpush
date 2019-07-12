@@ -13,20 +13,20 @@ import java.util.Set;
 public class Notification implements PushModel {
     private final Object alert;
     private final Set<PlatformNotification> notifications;
-    
+
     private Notification(Object alert, Set<PlatformNotification> notifications) {
         this.alert = alert;
         this.notifications = notifications;
     }
-    
+
     public static Builder newBuilder() {
         return new Builder();
     }
-    
+
     /**
-     * Quick set all platform alert. 
-     * Platform notification can override this alert. 
-     * 
+     * Quick set all platform alert.
+     * Platform notification can override this alert.
+     *
      * @param alert Notification alert
      * @return first level notification object
      */
@@ -37,62 +37,62 @@ public class Notification implements PushModel {
     public static Notification android(String alert, String title, Map<String, String> extras) {
         return newBuilder()
                 .addPlatformNotification(AndroidNotification.newBuilder()
-                    .setAlert(alert)
-                    .setTitle(title)
-                    .addExtras(extras)
-                    .build())
+                        .setAlert(alert)
+                        .setTitle(title)
+                        .addExtras(extras)
+                        .build())
                 .build();
     }
 
     public static Notification ios(Object alert, Map<String, String> extras) {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
-                    .setAlert(alert)
-                    .addExtras(extras)
-                    .build())
+                        .setAlert(alert)
+                        .addExtras(extras)
+                        .build())
                 .build();
     }
 
     public static Notification ios_auto_badge() {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
-                    .setAlert("")
-                    .autoBadge()
-                    .build())
+                        .setAlert("")
+                        .autoBadge()
+                        .build())
                 .build();
     }
 
     public static Notification ios_set_badge(int badge) {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
-                    .setAlert("")
-                    .setBadge(badge)
-                    .build())
+                        .setAlert("")
+                        .setBadge(badge)
+                        .build())
                 .build();
     }
 
     public static Notification ios_incr_badge(int badge) {
         return newBuilder()
                 .addPlatformNotification(IosNotification.newBuilder()
-                    .setAlert("")
-                    .incrBadge(badge)
-                    .build())
+                        .setAlert("")
+                        .incrBadge(badge)
+                        .build())
                 .build();
     }
 
     public static Notification winphone(String alert, Map<String, String> extras) {
         return newBuilder()
                 .addPlatformNotification(WinphoneNotification.newBuilder()
-                    .setAlert(alert)
-                    .addExtras(extras)
-                    .build())
+                        .setAlert(alert)
+                        .addExtras(extras)
+                        .build())
                 .build();
     }
-    
+
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
         if (null != alert) {
-            if(alert instanceof JsonObject) {
+            if (alert instanceof JsonObject) {
                 json.add(PlatformNotification.ALERT, (JsonObject) alert);
             } else if (alert instanceof IosAlert) {
                 json.add(PlatformNotification.ALERT, ((IosAlert) alert).toJSON());
@@ -105,8 +105,8 @@ public class Notification implements PushModel {
                 if (this.alert != null && pn.getAlert() == null) {
                     pn.setAlert(this.alert);
                 }
-                
-                Preconditions.checkArgument(! (null == pn.getAlert()), 
+
+                Preconditions.checkArgument(!(null == pn.getAlert()),
                         "For any platform notification, alert field is needed. It can be empty string.");
 
                 json.add(pn.getPlatform(), pn.toJSON());
@@ -118,12 +118,12 @@ public class Notification implements PushModel {
     public static class Builder {
         private Object alert;
         private Set<PlatformNotification> builder;
-        
+
         public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
         }
-        
+
         public Builder addPlatformNotification(PlatformNotification notification) {
             if (null == builder) {
                 builder = new HashSet<PlatformNotification>();
@@ -131,9 +131,9 @@ public class Notification implements PushModel {
             builder.add(notification);
             return this;
         }
-        
+
         public Notification build() {
-            Preconditions.checkArgument(! (null == builder && null == alert), 
+            Preconditions.checkArgument(!(null == builder && null == alert),
                     "No notification payload is set.");
             return new Notification(alert, builder);
         }

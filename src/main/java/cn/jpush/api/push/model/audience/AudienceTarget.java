@@ -39,7 +39,7 @@ public class AudienceTarget implements PushModel {
         return newBuilder().setAudienceType(AudienceType.TAG_AND).addAudienceTargetValues(tags).build();
     }
 
-    public static AudienceTarget tag_not(String...tag) {
+    public static AudienceTarget tag_not(String... tag) {
         return newBuilder().setAudienceType(AudienceType.TAG_NOT).addAudienceTargetValues(tag).build();
     }
 
@@ -101,7 +101,7 @@ public class AudienceTarget implements PushModel {
     public static AudienceTarget fromJsonElement(JsonArray jsonArray, AudienceType type) {
         Set<String> stringSet = new HashSet<>();
         if (jsonArray != null) {
-            for (int i=0; i<jsonArray.size(); i++) {
+            for (int i = 0; i < jsonArray.size(); i++) {
                 stringSet.add(jsonArray.get(i).getAsString());
             }
         }

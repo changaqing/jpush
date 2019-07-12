@@ -27,7 +27,7 @@ public class AdminClient {
     /**
      * Create a Push Client.
      *
-     * @param appKey The KEY of one application on JPush.
+     * @param appKey       The KEY of one application on JPush.
      * @param masterSecret API access secret of the appKey.
      */
     public AdminClient(String appKey, String masterSecret) {
@@ -53,12 +53,13 @@ public class AdminClient {
 
     /**
      * Create an app under developer account
-     * @param appName app name
+     *
+     * @param appName     app name
      * @param packageName android package name
-     * @param groupName developer app group name
+     * @param groupName   developer app group name
      * @return {@link CreateAppResult}
      * @throws APIConnectionException connect exception
-     * @throws APIRequestException request exception
+     * @throws APIRequestException    request exception
      */
     public CreateAppResult createApp(String appName, String packageName, String groupName)
             throws APIConnectionException, APIRequestException {
@@ -76,10 +77,11 @@ public class AdminClient {
 
     /**
      * Delete app by app key
+     *
      * @param appKey app key
      * @return {@link AppResult}
      * @throws APIConnectionException connect exception
-     * @throws APIRequestException request exception
+     * @throws APIRequestException    request exception
      */
     public AppResult deleteApp(String appKey) throws APIConnectionException, APIRequestException {
         ResponseWrapper responseWrapper = mHttpClient.sendDelete(mBasePath + mV1AppPath + "/" + appKey + "/delete");

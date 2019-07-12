@@ -9,7 +9,8 @@ import java.util.List;
 public class TagListResult extends BaseResult {
 
     private static final long serialVersionUID = -5395153728332839175L;
-    @Expose public List<String> tags = new ArrayList<String>();
-    
+    @Expose
+    public List<String> tags = new ArrayList<String>();
+
 }
 

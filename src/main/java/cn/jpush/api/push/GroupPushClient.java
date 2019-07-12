@@ -44,14 +44,16 @@ public class GroupPushClient {
     }
 
     public Map<String, PushResult> sendGroupPush(PushPayload pushPayload) throws APIConnectionException, APIRequestException {
-        Preconditions.checkArgument(! (null == pushPayload), "pushPayload should not be null");
+        Preconditions.checkArgument(!(null == pushPayload), "pushPayload should not be null");
         ResponseWrapper response = _httpClient.sendPost(_baseUrl + _groupPushPath, getEncryptData(pushPayload));
-        return  _gson.fromJson(response.responseContent,
-                new TypeToken<Map<String, PushResult>>(){}.getType());
+        return _gson.fromJson(response.responseContent,
+                new TypeToken<Map<String, PushResult>>() {
+                }.getType());
     }
 
     /**
      * 获取加密的payload数据
+     *
      * @param pushPayload
      * @return
      */

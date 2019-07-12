@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 public class InterfaceAdapter<T> implements JsonSerializer, JsonDeserializer<T> {
     @Override
     public T deserialize(JsonElement jsonElement, Type type,
-                              JsonDeserializationContext jsonDeserializationContext)
+                         JsonDeserializationContext jsonDeserializationContext)
             throws JsonParseException {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
         String className = jsonObj.get("type").getAsString();

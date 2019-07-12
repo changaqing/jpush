@@ -5,7 +5,8 @@ import com.google.gson.annotations.Expose;
 
 public class AppResult extends BaseResult {
 
-    @Expose private String success;
+    @Expose
+    private String success;
 
     public String getSuccess() {
         return success;

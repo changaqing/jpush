@@ -71,9 +71,10 @@ public class JPushIosAndroid extends JPushBase {
     }
 
     @Override
-    public ScheduleResult push(String scheduleName, Date scheduleTime, Runnable runnable) throws Exception {
-        JPushUtil.addScheduled(scheduleTime, runnable);
-        return JPushUtil.jpushClient.createSingleSchedule(scheduleName, JPushUtil.yyyyMMddHHmmss.format(scheduleTime), super.getPushPayload());
+    public String push(String scheduleName, Date scheduleTime, Runnable runnable){
+        //先不用极光定时推送 因为他的进行删除任务的时候需要任务id 而id是他自己定义的 如果使用他的id进行删除 那么我重启项目就没办法找到这个任务的id 除非把id记录到数据库 但是这样挺费劲的所以 只提供添加任务 在回调里面自己执行相应的业务
+//        ScheduleResult singleSchedule = JPushUtil.jpushClient.createSingleSchedule(scheduleName, JPushUtil.yyyyMMddHHmmss.format(scheduleTime), super.getPushPayload());
+        return JPushUtil.addScheduled(scheduleName, scheduleTime, runnable);
     }
 
 

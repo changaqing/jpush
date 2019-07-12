@@ -20,7 +20,7 @@ public class IosAlert implements PushModel {
     private final String launch_image;
 
     private IosAlert(String title, String subtitle, String body, String title_loc_key, String[] title_loc_args,
-                    String action_loc_key, String loc_key, String[] loc_args, String launch_image) {
+                     String action_loc_key, String loc_key, String[] loc_args, String launch_image) {
         this.title = title;
         this.subtitle = subtitle;
         this.body = body;
@@ -40,45 +40,45 @@ public class IosAlert implements PushModel {
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
 
-        if( StringUtils.isNotEmpty(title) ) {
+        if (StringUtils.isNotEmpty(title)) {
             json.addProperty("title", title);
         }
 
-        if ( StringUtils.isNotEmpty(subtitle) ) {
+        if (StringUtils.isNotEmpty(subtitle)) {
             json.addProperty("subtitle", subtitle);
         }
 
-        if( StringUtils.isNotEmpty(body) ) {
+        if (StringUtils.isNotEmpty(body)) {
             json.addProperty("body", body);
         }
 
-        if( StringUtils.isNotEmpty(title_loc_key) ) {
+        if (StringUtils.isNotEmpty(title_loc_key)) {
             json.addProperty("title-loc-key", title_loc_key);
-            if( null != title_loc_args && title_loc_args.length > 0 ) {
+            if (null != title_loc_args && title_loc_args.length > 0) {
                 JsonArray args = new JsonArray();
-                for(int i = 0; i < title_loc_args.length; i++) {
+                for (int i = 0; i < title_loc_args.length; i++) {
                     args.add(new JsonPrimitive(title_loc_args[i]));
                 }
                 json.add("title-loc-args", args);
             }
         }
 
-        if( StringUtils.isNotEmpty(action_loc_key) ) {
+        if (StringUtils.isNotEmpty(action_loc_key)) {
             json.addProperty("action-loc-key", action_loc_key);
         }
 
-        if( StringUtils.isNotEmpty(loc_key) ) {
+        if (StringUtils.isNotEmpty(loc_key)) {
             json.addProperty("loc-key", loc_key);
-            if( null != loc_args && loc_args.length > 0 ) {
+            if (null != loc_args && loc_args.length > 0) {
                 JsonArray args = new JsonArray();
-                for(int i = 0; i < loc_args.length; i++) {
+                for (int i = 0; i < loc_args.length; i++) {
                     args.add(new JsonPrimitive(loc_args[i]));
                 }
                 json.add("loc-args", args);
             }
         }
 
-        if( StringUtils.isNotEmpty(launch_image) ) {
+        if (StringUtils.isNotEmpty(launch_image)) {
             json.addProperty("launch-image", launch_image);
         }
 
@@ -101,7 +101,7 @@ public class IosAlert implements PushModel {
         private String[] loc_args;
         private String launch_image;
 
-        public Builder setTitleAndBody(String title, String subtitle, String body){
+        public Builder setTitleAndBody(String title, String subtitle, String body) {
             this.title = title;
             this.subtitle = subtitle;
             this.body = body;

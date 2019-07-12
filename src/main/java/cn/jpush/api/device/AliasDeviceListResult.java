@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AliasDeviceListResult extends BaseResult {
-   
-	@Expose public List<String> registration_ids = new ArrayList<String>();
+
+    @Expose
+    public List<String> registration_ids = new ArrayList<String>();
 
 }
 

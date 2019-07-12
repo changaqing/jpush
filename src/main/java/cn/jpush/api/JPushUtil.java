@@ -1,13 +1,13 @@
 package cn.jpush.api;
 
+import cn.jpush.api.schedule.ScheduleResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.concurrent.*;
 
 public class JPushUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JPushUtil.class);
@@ -17,15 +17,22 @@ public class JPushUtil {
     public static JPushClient jpushClient;
     public static ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();//单线程定时任务
     public static SimpleDateFormat yyyyMMddHHmmss = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static ConcurrentHashMap<String, Future> concurrentHashMap = new ConcurrentHashMap<>();
 
-    public static void addScheduled(Date scheduleTime, Runnable runnable) {
+    public static String addScheduled(String scheduleName, Date scheduleTime, Runnable runnable) {
         String format = JPushUtil.yyyyMMddHHmmss.format(scheduleTime);
         long startTime = (scheduleTime.getTime() - System.currentTimeMillis()) / 1000;
-        LOGGER.info("通知任务执行时间：" + format);
-//        System.out.println(currentTime + "-----" + startTime);
-//        System.out.println(currentTime / 1000 + "-----" + startTime / 1000);
-//        service.scheduleAtFixedRate(runnable, 10, 1, TimeUnit.SECONDS);
-        LOGGER.info("通知任务还剩" + startTime + "秒执行");
-        JPushUtil.scheduledExecutorService.schedule(runnable, startTime, TimeUnit.SECONDS);
+        LOGGER.info(scheduleName + "通知任务执行时间：" + format + "\t\t通知任务还剩" + startTime + "秒执行");
+        concurrentHashMap.put(scheduleName, JPushUtil.scheduledExecutorService.schedule(runnable, startTime, TimeUnit.SECONDS));//添加到集合里面
+        return scheduleName;
+    }
+
+    public static void cancelScheduled(String scheduleName) {
+        if (concurrentHashMap.get(scheduleName) != null) {
+            concurrentHashMap.get(scheduleName).cancel(true);
+            LOGGER.info(scheduleName + "通知任务取消时间：" + yyyyMMddHHmmss.format(new Date()));
+        } else {
+            LOGGER.info(scheduleName + "通知任务不存在：" + yyyyMMddHHmmss.format(new Date()));
+        }
     }
 }

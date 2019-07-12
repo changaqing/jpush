@@ -30,21 +30,21 @@ import java.util.Map;
  */
 public class IosNotification extends PlatformNotification {
     public static final String NOTIFICATION_IOS = "ios";
-        
+
     private static final String DEFAULT_SOUND = "";
     private static final String DEFAULT_BADGE = "+1";
-    
+
     private static final String BADGE = "badge";
     private static final String SOUND = "sound";
     private static final String CONTENT_AVAILABLE = "content-available";
     private static final String MUTABLE_CONTENT = "mutable-content";
     private static final String CATEGORY = "category";
     private static final String THREAD_ID = "thread-id";
-    
+
     private static final String ALERT_VALID_BADGE = "Badge number should be 0~99999, "
             + "and can be prefixed with + to add, - to minus";
 
-    
+
     private final boolean soundDisabled;
     private final boolean badgeDisabled;
     private final Object sound;
@@ -54,16 +54,16 @@ public class IosNotification extends PlatformNotification {
     private final boolean mutableContent;
     private final String threadId;
 
-    
+
     private IosNotification(Object alert, Object sound, String badge,
-            boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled, 
-            String category, boolean mutableContent,String threadId,
-            Map<String, String> extras, 
-            Map<String, Number> numberExtras, 
-            Map<String, Boolean> booleanExtras, 
-            Map<String, JsonObject> jsonExtras) {
+                            boolean contentAvailable, boolean soundDisabled, boolean badgeDisabled,
+                            String category, boolean mutableContent, String threadId,
+                            Map<String, String> extras,
+                            Map<String, Number> numberExtras,
+                            Map<String, Boolean> booleanExtras,
+                            Map<String, JsonObject> jsonExtras) {
         super(alert, extras, numberExtras, booleanExtras, jsonExtras);
-        
+
         this.sound = sound;
         this.badge = badge;
         this.contentAvailable = contentAvailable;
@@ -73,25 +73,25 @@ public class IosNotification extends PlatformNotification {
         this.mutableContent = mutableContent;
         this.threadId = threadId;
     }
-    
+
     public static Builder newBuilder() {
         return new Builder();
     }
-    
+
     public static IosNotification alert(String alert) {
         return newBuilder().setAlert(alert).build();
     }
-    
-    
+
+
     @Override
     public String getPlatform() {
         return NOTIFICATION_IOS;
     }
-    
+
     @Override
     public JsonElement toJSON() {
         JsonObject json = super.toJSON().getAsJsonObject();
-        
+
         if (!badgeDisabled) {
             if (null != badge) {
                 json.add(BADGE, new JsonPrimitive(this.badge));
@@ -101,12 +101,12 @@ public class IosNotification extends PlatformNotification {
         }
         if (!soundDisabled) {
             if (null != sound) {
-            	if(sound instanceof String){
-            		json.add(SOUND, new JsonPrimitive((String)sound));
-            	}else if (sound instanceof JsonObject) {
-					json.add(SOUND,  (JsonObject) sound);
-				}
-                
+                if (sound instanceof String) {
+                    json.add(SOUND, new JsonPrimitive((String) sound));
+                } else if (sound instanceof JsonObject) {
+                    json.add(SOUND, (JsonObject) sound);
+                }
+
             } else {
                 json.add(SOUND, new JsonPrimitive(DEFAULT_SOUND));
             }
@@ -115,19 +115,19 @@ public class IosNotification extends PlatformNotification {
             json.add(CONTENT_AVAILABLE, new JsonPrimitive(true));
         }
         if (null != category) {
-        	json.add(CATEGORY, new JsonPrimitive(category));
+            json.add(CATEGORY, new JsonPrimitive(category));
         }
         if (mutableContent) {
             json.add(MUTABLE_CONTENT, new JsonPrimitive(true));
         }
         if (null != threadId) {
-        	json.add(THREAD_ID, new JsonPrimitive(threadId));
+            json.add(THREAD_ID, new JsonPrimitive(threadId));
         }
 
         return json;
     }
-    
-    
+
+
     public static class Builder extends PlatformNotification.Builder<IosNotification, Builder> {
         private Object sound;
         private String badge;
@@ -139,29 +139,29 @@ public class IosNotification extends PlatformNotification {
         private String threadId;
 
         protected Builder getThis() {
-        	return this;
+            return this;
         }
-        
+
         public Builder setSound(Object sound) {
-        	if (null == sound) {
+            if (null == sound) {
                 LOG.warn("Null sound. Throw away it.");
                 return this;
             }
             this.sound = sound;
             return this;
         }
-        
+
         public Builder disableSound() {
             this.soundDisabled = true;
             return this;
         }
-        
+
         public Builder incrBadge(int badge) {
             if (!ServiceHelper.isValidIntBadge(Math.abs(badge))) {
                 LOG.warn(ALERT_VALID_BADGE);
                 return this;
             }
-            
+
             if (badge >= 0) {
                 this.badge = "+" + badge;
             } else {
@@ -169,7 +169,7 @@ public class IosNotification extends PlatformNotification {
             }
             return this;
         }
-        
+
         public Builder setBadge(int badge) {
             if (!ServiceHelper.isValidIntBadge(badge)) {
                 LOG.warn(ALERT_VALID_BADGE);
@@ -178,30 +178,31 @@ public class IosNotification extends PlatformNotification {
             this.badge = "" + badge;
             return this;
         }
-        
+
         /**
          * equals to: +1
+         *
          * @return IosNotification builder
          */
         public Builder autoBadge() {
             return incrBadge(1);
         }
-        
+
         public Builder disableBadge() {
             this.badgeDisabled = true;
             return this;
         }
-        
+
         public Builder setContentAvailable(boolean contentAvailable) {
             this.contentAvailable = contentAvailable;
             return this;
         }
-        
+
         public Builder setCategory(String category) {
-        	this.category = category;
-        	return this;
+            this.category = category;
+            return this;
         }
-        
+
         public Builder setAlert(Object alert) {
             this.alert = alert;
             return this;
@@ -211,17 +212,17 @@ public class IosNotification extends PlatformNotification {
             this.mutableContent = mutableContent;
             return this;
         }
-        
+
         public Builder setThreadId(String threadId) {
-        	this.threadId = threadId;
-        	return this;
+            this.threadId = threadId;
+            return this;
         }
 
 
         public IosNotification build() {
             return new IosNotification(alert, sound, badge, contentAvailable,
                     soundDisabled, badgeDisabled, category, mutableContent, threadId,
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
+                    extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
     }
 }

@@ -19,11 +19,11 @@ public class SMS implements PushModel {
     private final Map<String, Boolean> booleanExtras;
     private final Map<String, JsonObject> jsonExtras;
 
-    private SMS(String content, int delay_time, long temp_id, 
-    		Map<String, String> extras, 
-    		Map<String, Number> numberExtras,
-    		Map<String, Boolean> booleanExtras,
-    		Map<String, JsonObject> jsonExtras) {
+    private SMS(String content, int delay_time, long temp_id,
+                Map<String, String> extras,
+                Map<String, Number> numberExtras,
+                Map<String, Boolean> booleanExtras,
+                Map<String, JsonObject> jsonExtras) {
         this.content = content;
         this.delay_time = delay_time;
         this.temp_id = temp_id;
@@ -31,7 +31,7 @@ public class SMS implements PushModel {
         this.numberExtras = numberExtras;
         this.booleanExtras = booleanExtras;
         this.jsonExtras = jsonExtras;
-        		
+
     }
 
     public static Builder newBuilder() {
@@ -45,7 +45,7 @@ public class SMS implements PushModel {
      * Please note the delay time only works on JPushAndroid.
      * If you are pushing to iOS, the SMS will be sent immediately, whether or not the delay time is 0.
      *
-     * @param content The SMS content.
+     * @param content   The SMS content.
      * @param delayTime The seconds you want to delay, should be greater than or equal to 0.
      * @return SMS payload.
      */
@@ -56,35 +56,35 @@ public class SMS implements PushModel {
                 .setDelayTime(delayTime)
                 .build();
     }
-    
+
     public static SMS content(long tempId, int delayTime) {
         return new Builder()
                 .setTempID(tempId)
                 .setDelayTime(delayTime)
                 .build();
     }
-    
+
 
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
-        
+
         json.addProperty("delay_time", delay_time);
-        
+
         if (temp_id > 0) {
-        	json.addProperty("temp_id", temp_id);
-        }
-        
-        if (null != content) {
-        	json.addProperty("content", content);
+            json.addProperty("temp_id", temp_id);
         }
 
-        
+        if (null != content) {
+            json.addProperty("content", content);
+        }
+
+
         JsonObject extrasObject = null;
         if (null != extras || null != numberExtras || null != booleanExtras) {
             extrasObject = new JsonObject();
         }
-        
+
         if (null != extras) {
             for (String key : extras.keySet()) {
                 if (extras.get(key) != null) {
@@ -134,23 +134,23 @@ public class SMS implements PushModel {
             this.delay_time = delayTime;
             return this;
         }
-        
+
         public Builder setTempID(long tempID) {
             this.temp_id = tempID;
             return this;
         }
-        
+
         public Builder addPara(String key, String value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(!(null == key || null == value), "Key/Value should not be null.");
             if (null == extrasBuilder) {
                 extrasBuilder = new HashMap<String, String>();
             }
             extrasBuilder.put(key, value);
             return this;
         }
-        
+
         public Builder addParas(Map<String, String> extras) {
-            Preconditions.checkArgument(! (null == extras), "extras should not be null.");
+            Preconditions.checkArgument(!(null == extras), "extras should not be null.");
             if (null == extrasBuilder) {
                 extrasBuilder = new HashMap<String, String>();
             }
@@ -159,29 +159,29 @@ public class SMS implements PushModel {
             }
             return this;
         }
-        
+
         public Builder addPara(String key, Number value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(!(null == key || null == value), "Key/Value should not be null.");
             if (null == numberExtrasBuilder) {
                 numberExtrasBuilder = new HashMap<String, Number>();
             }
             numberExtrasBuilder.put(key, value);
             return this;
         }
-        
+
         public Builder addPara(String key, Boolean value) {
-            Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(!(null == key || null == value), "Key/Value should not be null.");
             if (null == booleanExtrasBuilder) {
                 booleanExtrasBuilder = new HashMap<String, Boolean>();
             }
             booleanExtrasBuilder.put(key, value);
             return this;
         }
-        
+
         public Builder addPara(String key, JsonObject value) {
-        	Preconditions.checkArgument(! (null == key || null == value), "Key/Value should not be null.");
+            Preconditions.checkArgument(!(null == key || null == value), "Key/Value should not be null.");
             if (null == jsonExtrasBuilder) {
-            	jsonExtrasBuilder = new HashMap<String, JsonObject>();
+                jsonExtrasBuilder = new HashMap<String, JsonObject>();
             }
             jsonExtrasBuilder.put(key, value);
             return this;
@@ -191,7 +191,7 @@ public class SMS implements PushModel {
             Preconditions.checkArgument(delay_time >= 0, "The delay time must be greater than or equal to 0");
 
             return new SMS(content, delay_time, temp_id,
-            		extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder,jsonExtrasBuilder);
+                    extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
 
     }

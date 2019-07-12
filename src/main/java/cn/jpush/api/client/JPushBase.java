@@ -47,7 +47,7 @@ public abstract class JPushBase {
      * @return
      * @throws Exception
      */
-    public abstract ScheduleResult push(String scheduleName, Date scheduleTime, Runnable runnable) throws Exception;
+    public abstract String push(String scheduleName, Date scheduleTime, Runnable runnable) throws Exception;
 
     public String getAlert() {
         return alert;

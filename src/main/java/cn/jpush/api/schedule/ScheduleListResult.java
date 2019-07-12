@@ -6,13 +6,17 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
-public class ScheduleListResult extends BaseResult{
+public class ScheduleListResult extends BaseResult {
 
     private static final long serialVersionUID = 86248096939746151L;
-    @Expose int total_count;
-    @Expose int total_pages;
-    @Expose int page;
-    @Expose List<ScheduleResult> schedules;
+    @Expose
+    int total_count;
+    @Expose
+    int total_pages;
+    @Expose
+    int page;
+    @Expose
+    List<ScheduleResult> schedules;
 
     public int getTotal_count() {
         return total_count;

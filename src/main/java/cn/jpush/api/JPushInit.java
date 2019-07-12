@@ -10,7 +10,7 @@ public abstract class JPushInit {
      * @param appKey
      * @param masterSecret
      */
-   public static JPushClient init(String appKey, String masterSecret) {
+    public static JPushClient init(String appKey, String masterSecret) {
         JPushUtil.appKey = appKey;
         JPushUtil.masterSecret = masterSecret;
         JPushUtil.jpushClient = new JPushClient(masterSecret, appKey, null, ClientConfig.getInstance());

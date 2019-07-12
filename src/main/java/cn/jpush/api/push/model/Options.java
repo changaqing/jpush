@@ -14,18 +14,18 @@ public class Options implements PushModel {
     private static final String APNS_PRODUCTION = "apns_production";
     private static final String BIG_PUSH_DURATION = "big_push_duration";
     private static final String APNS_COLLAPSE_ID = "apns_collapse_id";
-    
+
     private static final long NONE_TIME_TO_LIVE = -1;
-    
+
     private final int sendno;
     private final long overrideMsgId;
     private long timeToLive;
     private boolean apnsProduction;
-    private int bigPushDuration;	// minutes
+    private int bigPushDuration;    // minutes
     private String apnsCollapseId;
-    
-    private Options(int sendno, long overrideMsgId, long timeToLive, boolean apnsProduction, 
-    		int bigPushDuration, String apnsCollapseId) {
+
+    private Options(int sendno, long overrideMsgId, long timeToLive, boolean apnsProduction,
+                    int bigPushDuration, String apnsCollapseId) {
         this.sendno = sendno;
         this.overrideMsgId = overrideMsgId;
         this.timeToLive = timeToLive;
@@ -33,35 +33,35 @@ public class Options implements PushModel {
         this.bigPushDuration = bigPushDuration;
         this.apnsCollapseId = apnsCollapseId;
     }
-    
+
     public static Builder newBuilder() {
         return new Builder();
     }
-    
+
     public static Options sendno() {
         return newBuilder().setSendno(ServiceHelper.generateSendno()).build();
     }
-    
+
     public static Options sendno(int sendno) {
         return newBuilder().setSendno(sendno).build();
     }
-    
+
     public void setApnsProduction(boolean apnsProduction) {
         this.apnsProduction = apnsProduction;
     }
-    
+
     public void setTimeToLive(long timeToLive) {
         this.timeToLive = timeToLive;
     }
-    
+
     public void setBigPushDuration(int bigPushDuration) {
-    	this.bigPushDuration = bigPushDuration;
+        this.bigPushDuration = bigPushDuration;
     }
-    
+
     public int getSendno() {
         return this.sendno;
     }
-    
+
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
@@ -74,20 +74,20 @@ public class Options implements PushModel {
         if (timeToLive >= 0) {
             json.add(TIME_TO_LIVE, new JsonPrimitive(timeToLive));
         }
-        
+
         json.add(APNS_PRODUCTION, new JsonPrimitive(apnsProduction));
-        
+
         if (bigPushDuration > 0) {
-        	json.add(BIG_PUSH_DURATION,  new JsonPrimitive(bigPushDuration));
+            json.add(BIG_PUSH_DURATION, new JsonPrimitive(bigPushDuration));
         }
 
         if (apnsCollapseId != null) {
             json.add(APNS_COLLAPSE_ID, new JsonPrimitive(apnsCollapseId));
         }
-        
+
         return json;
     }
-    
+
     public static class Builder {
         private int sendno = 0;
         private long overrideMsgId = 0;
@@ -95,22 +95,22 @@ public class Options implements PushModel {
         private boolean apnsProduction = false;
         private int bigPushDuration = 0;
         private String apnsCollapseId;
-        
+
         public Builder setSendno(int sendno) {
             this.sendno = sendno;
             return this;
         }
-        
+
         public Builder setOverrideMsgId(long overrideMsgId) {
             this.overrideMsgId = overrideMsgId;
             return this;
         }
-        
+
         public Builder setTimeToLive(long timeToLive) {
             this.timeToLive = timeToLive;
             return this;
         }
-        
+
         public Builder setApnsProduction(boolean apnsProduction) {
             this.apnsProduction = apnsProduction;
             return this;
@@ -120,10 +120,10 @@ public class Options implements PushModel {
             this.apnsCollapseId = id;
             return this;
         }
-        
+
         public Builder setBigPushDuration(int bigPushDuration) {
-        	this.bigPushDuration = bigPushDuration;
-        	return this;
+            this.bigPushDuration = bigPushDuration;
+            return this;
         }
 
         public Options build() {
@@ -134,7 +134,7 @@ public class Options implements PushModel {
             if (sendno <= 0) {
                 sendno = ServiceHelper.generateSendno();
             }
-            
+
             return new Options(sendno, overrideMsgId, timeToLive, apnsProduction, bigPushDuration, apnsCollapseId);
         }
     }

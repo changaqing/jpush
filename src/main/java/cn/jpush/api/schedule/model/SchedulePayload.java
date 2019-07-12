@@ -29,16 +29,16 @@ public class SchedulePayload implements IModel {
     @Override
     public JsonElement toJSON() {
         JsonObject json = new JsonObject();
-        if ( StringUtils.isNotEmpty(name) ) {
+        if (StringUtils.isNotEmpty(name)) {
             json.addProperty("name", name);
         }
-        if ( null != enabled ) {
+        if (null != enabled) {
             json.addProperty("enabled", enabled);
         }
-        if ( null != trigger ) {
+        if (null != trigger) {
             json.add("trigger", trigger.toJSON());
         }
-        if ( null != push ) {
+        if (null != push) {
             json.add("push", push.toJSON());
         }
         return json;
@@ -50,18 +50,18 @@ public class SchedulePayload implements IModel {
     }
 
     public void resetPushApnsProduction(boolean apnsProduction) {
-        if(null != push) {
+        if (null != push) {
             push.resetOptionsApnsProduction(apnsProduction);
         }
     }
 
     public void resetPushTimeToLive(long timeToLive) {
-        if(null != push) {
+        if (null != push) {
             push.resetOptionsTimeToLive(timeToLive);
         }
     }
 
-    public static class Builder{
+    public static class Builder {
         private String name;
         private Boolean enabled;
         private TriggerPayload trigger;

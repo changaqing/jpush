@@ -33,10 +33,10 @@ public class ScheduleClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
-     * @param masterSecret API access secret of the appKey.
-     * @param appKey The KEY of one application on JPush.
-     * @param maxRetryTimes The mas retry times.
      *
+     * @param masterSecret  API access secret of the appKey.
+     * @param appKey        The KEY of one application on JPush.
+     * @param maxRetryTimes The mas retry times.
      */
     @Deprecated
     public ScheduleClient(String masterSecret, String appKey, int maxRetryTimes) {
@@ -45,10 +45,11 @@ public class ScheduleClient {
 
     /**
      * This will be removed in the future. Please use ClientConfig{jiguang-common cn.jiguang.common.ClientConfig#setMaxRetryTimes} instead of this constructor.
-     * @param masterSecret API access secret of the appKey.
-     * @param appKey The KEY of one application on JPush.
+     *
+     * @param masterSecret  API access secret of the appKey.
+     * @param appKey        The KEY of one application on JPush.
      * @param maxRetryTimes The mas retry times.
-     * @param proxy The proxy, if there is no proxy, should be null.
+     * @param proxy         The proxy, if there is no proxy, should be null.
      */
     @Deprecated
     public ScheduleClient(String masterSecret, String appKey, int maxRetryTimes, HttpProxy proxy) {
@@ -68,10 +69,11 @@ public class ScheduleClient {
 
     /**
      * Create a Schedule Client with custom configuration.
+     *
      * @param masterSecret API access secret of the appKey.
-     * @param appKey The KEY of one application on JPush.
-     * @param proxy The proxy, if there is no proxy, should be null.
-     * @param conf The client configuration. Can use ClientConfig.getInstance() as default.
+     * @param appKey       The KEY of one application on JPush.
+     * @param proxy        The proxy, if there is no proxy, should be null.
+     * @param conf         The client configuration. Can use ClientConfig.getInstance() as default.
      */
     public ScheduleClient(String masterSecret, String appKey, HttpProxy proxy, ClientConfig conf) {
         ServiceHelper.checkBasic(appKey, masterSecret);
@@ -90,7 +92,7 @@ public class ScheduleClient {
 
         if (apnsProduction > 0) {
             payload.resetPushApnsProduction(true);
-        } else if(apnsProduction == 0) {
+        } else if (apnsProduction == 0) {
             payload.resetPushApnsProduction(false);
         }
 
@@ -98,11 +100,11 @@ public class ScheduleClient {
             payload.resetPushTimeToLive(timeToLive);
         }
 
-        ResponseWrapper response = _httpClient.sendPost(hostName  + schedulePath, payload.toString());
+        ResponseWrapper response = _httpClient.sendPost(hostName + schedulePath, payload.toString());
         return ScheduleResult.fromResponse(response, ScheduleResult.class);
     }
 
-    public ScheduleListResult getScheduleList(int page) throws APIConnectionException, APIRequestException{
+    public ScheduleListResult getScheduleList(int page) throws APIConnectionException, APIRequestException {
 
         Preconditions.checkArgument(page > 0, "page should more than 0.");
 
@@ -110,15 +112,15 @@ public class ScheduleClient {
         return ScheduleListResult.fromResponse(response, ScheduleListResult.class);
     }
 
-    public ScheduleResult getSchedule(String scheduleId) throws APIConnectionException, APIRequestException{
+    public ScheduleResult getSchedule(String scheduleId) throws APIConnectionException, APIRequestException {
 
         Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
 
         ResponseWrapper response = _httpClient.sendGet(hostName + schedulePath + "/" + scheduleId);
         return ScheduleResult.fromResponse(response, ScheduleResult.class);
     }
-    
-    public ScheduleMsgIdsResult getScheduleMsgIds(String scheduleId) throws APIConnectionException, APIRequestException{
+
+    public ScheduleMsgIdsResult getScheduleMsgIds(String scheduleId) throws APIConnectionException, APIRequestException {
 
         Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
 
@@ -126,14 +128,14 @@ public class ScheduleClient {
         return ScheduleResult.fromResponse(response, ScheduleMsgIdsResult.class);
     }
 
-    public ScheduleResult updateSchedule(String scheduleId, SchedulePayload payload) throws APIConnectionException, APIRequestException{
+    public ScheduleResult updateSchedule(String scheduleId, SchedulePayload payload) throws APIConnectionException, APIRequestException {
 
         Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
         Preconditions.checkArgument(null != payload, "payload should not be null");
 
         if (apnsProduction > 0) {
             payload.resetPushApnsProduction(true);
-        } else if(apnsProduction == 0) {
+        } else if (apnsProduction == 0) {
             payload.resetPushApnsProduction(false);
         }
 
@@ -141,12 +143,12 @@ public class ScheduleClient {
             payload.resetPushTimeToLive(timeToLive);
         }
 
-        ResponseWrapper response = _httpClient.sendPut(hostName +  schedulePath + "/" + scheduleId,
+        ResponseWrapper response = _httpClient.sendPut(hostName + schedulePath + "/" + scheduleId,
                 payload.toString());
         return ScheduleResult.fromResponse(response, ScheduleResult.class);
     }
 
-    public void deleteSchedule(String scheduleId) throws APIConnectionException, APIRequestException{
+    public void deleteSchedule(String scheduleId) throws APIConnectionException, APIRequestException {
 
         Preconditions.checkArgument(StringUtils.isNotEmpty(scheduleId), "scheduleId should not be empty");
 

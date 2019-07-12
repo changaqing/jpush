@@ -8,5 +8,6 @@ import java.util.List;
 
 public class CIDResult extends BaseResult {
 
-    @Expose public List<String> cidlist = new ArrayList<String>();
+    @Expose
+    public List<String> cidlist = new ArrayList<String>();
 }

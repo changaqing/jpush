@@ -60,7 +60,7 @@ public class TriggerPayload implements IModel {
                 p.addProperty("time", time);
                 p.addProperty("time_unit", time_unit.name().toLowerCase());
                 p.addProperty("frequency", frequency);
-                if( !TimeUnit.DAY.equals(time_unit) ) {
+                if (!TimeUnit.DAY.equals(time_unit)) {
                     JsonArray array = new JsonArray();
                     for (String aPoint : point) {
                         array.add(new JsonPrimitive(aPoint));
@@ -79,7 +79,7 @@ public class TriggerPayload implements IModel {
         single, periodical
     }
 
-    public static class Builder{
+    public static class Builder {
 
         private String start;
         private String end;
@@ -90,6 +90,7 @@ public class TriggerPayload implements IModel {
 
         /**
          * Setup time for single trigger.
+         *
          * @param time The execute time, format yyyy-MM-dd HH:mm:ss
          * @return this Builder
          */
@@ -101,9 +102,10 @@ public class TriggerPayload implements IModel {
 
         /**
          * Setup period for periodical trigger.
+         *
          * @param start The start time, format yyyy-MM-dd HH:mm:ss
-         * @param end The end time, format yyyy-MM-dd HH:mm:ss
-         * @param time The execute time, format HH:mm:ss
+         * @param end   The end time, format yyyy-MM-dd HH:mm:ss
+         * @param time  The execute time, format HH:mm:ss
          * @return this Builder
          */
         public Builder setPeriodTime(String start, String end, String time) {
@@ -115,12 +117,13 @@ public class TriggerPayload implements IModel {
 
         /**
          * Setup frequency for periodical trigger.
+         *
          * @param time_unit The time unit, can be day, week or month.
          * @param frequency The frequency cooperate with time unit, must between 1 and 100.
-         * @param point The time point cooperate with time unit.
-         *              If time unit is day, the point should be null.
-         *              If time unit is week, should be the abbreviation of the days. eg. {"MON", "TUE"}
-         *              If time unit is month, should be the date of the days. eg. {"01", "03"}
+         * @param point     The time point cooperate with time unit.
+         *                  If time unit is day, the point should be null.
+         *                  If time unit is week, should be the abbreviation of the days. eg. {"MON", "TUE"}
+         *                  If time unit is month, should be the date of the days. eg. {"01", "03"}
          * @return this Builder
          */
         public Builder setTimeFrequency(TimeUnit time_unit, int frequency, String[] point) {

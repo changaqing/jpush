@@ -20,6 +20,7 @@ public class CheckMessagePayload implements IModel {
     private List<String> registrationIds;
     private String date;
     private Gson gson = new Gson();
+
     public CheckMessagePayload(long msgId, List<String> rids, String date) {
         this.msgId = msgId;
         this.registrationIds = rids;

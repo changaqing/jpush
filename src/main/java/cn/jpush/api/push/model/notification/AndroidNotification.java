@@ -36,11 +36,11 @@ public class AndroidNotification extends PlatformNotification {
     private JsonObject intent;
 
     private AndroidNotification(Object alert, String title, int builderId, int style, int alertType, String bigText,
-                                Object inbox, String bigPicPath, int priority, String category,String large_icon,JsonObject intent,
-            Map<String, String> extras,
-            Map<String, Number> numberExtras,
-            Map<String, Boolean> booleanExtras,
-            Map<String, JsonObject> jsonExtras) {
+                                Object inbox, String bigPicPath, int priority, String category, String large_icon, JsonObject intent,
+                                Map<String, String> extras,
+                                Map<String, Number> numberExtras,
+                                Map<String, Boolean> booleanExtras,
+                                Map<String, JsonObject> jsonExtras) {
         super(alert, extras, numberExtras, booleanExtras, jsonExtras);
 
         this.title = title;
@@ -147,7 +147,7 @@ public class AndroidNotification extends PlatformNotification {
         private JsonObject intent;
 
         protected Builder getThis() {
-        	return this;
+            return this;
         }
 
         public Builder setTitle(String title) {
@@ -210,7 +210,7 @@ public class AndroidNotification extends PlatformNotification {
         }
 
         public Builder setIntent(JsonObject intent) {
-        	if (null == intent) {
+            if (null == intent) {
                 LOG.warn("Null intent. Throw away it.");
                 return this;
             }
@@ -221,7 +221,7 @@ public class AndroidNotification extends PlatformNotification {
 
         public AndroidNotification build() {
             return new AndroidNotification(alert, title, builderId, style, alert_type, big_text, inbox, big_pic_path, priority,
-                    category, large_icon, intent,extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
+                    category, large_icon, intent, extrasBuilder, numberExtrasBuilder, booleanExtrasBuilder, jsonExtrasBuilder);
         }
     }
 }

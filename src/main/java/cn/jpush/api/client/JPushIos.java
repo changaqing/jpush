@@ -71,8 +71,8 @@ public class JPushIos extends JPushBase {
     }
 
     @Override
-    public ScheduleResult push(String scheduleName, Date scheduleTime, Runnable runnable) throws Exception {
-        JPushUtil.addScheduled(scheduleTime, runnable);
-        return JPushUtil.jpushClient.createSingleSchedule(scheduleName, JPushUtil.yyyyMMddHHmmss.format(scheduleTime), super.getPushPayload());
+    public String push(String scheduleName, Date scheduleTime, Runnable runnable) {
+//        JPushUtil.jpushClient.createSingleSchedule(scheduleName, JPushUtil.yyyyMMddHHmmss.format(scheduleTime), super.getPushPayload());
+        return JPushUtil.addScheduled(scheduleName, scheduleTime, runnable);
     }
 }

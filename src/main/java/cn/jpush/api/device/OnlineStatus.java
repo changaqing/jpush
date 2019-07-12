@@ -27,7 +27,7 @@ public class OnlineStatus implements Serializable {
 
     @Override
     public String toString() {
-        if(null == last_online_time) {
+        if (null == last_online_time) {
             return "status: " + online;
         }
         return "status: " + online + " , last_online_time: " + last_online_time;
