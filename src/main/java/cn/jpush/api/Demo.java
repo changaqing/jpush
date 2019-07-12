@@ -16,7 +16,7 @@ public class Demo extends JPushInit {
     public static void main(String[] args) throws ParseException {
 
         //初始化设置
-        init("f83ab76be6cd5b80afe871a3", "72bf9ac7f9dd432da8879daf");
+        init("", "");
 
         //不带附加参数  alert：标题    content：内容  aliases：别名  apns：默认为false true是生产环境
         final JPushIosAndroid jPushIosAndroid =
