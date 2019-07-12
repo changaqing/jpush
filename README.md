@@ -1,7 +1,5 @@
-# jpush
-## 这是极光推送
-注意：
-pom文件的parent和build用自己的。
+# jpush 这是极光推送
+## 注意：pom文件的parent和build用自己的。
 
 #                                                   请仔细看下面的每一句话
 
