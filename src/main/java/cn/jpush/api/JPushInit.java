@@ -14,7 +14,7 @@ public abstract class JPushInit {
         JPushUtil.appKey = appKey;
         JPushUtil.masterSecret = masterSecret;
         ClientConfig instance = ClientConfig.getInstance();
-        instance.setTimeToLive(86400);//保留一天
+        instance.setTimeToLive(86400);//保留一天 单位秒
         JPushUtil.jpushClient = new JPushClient(masterSecret, appKey, null, instance);
 //        JPushUtil.jpushClient = new JPushClient(masterSecret, appKey, null, ClientConfig.getInstance());
         return JPushUtil.jpushClient;
