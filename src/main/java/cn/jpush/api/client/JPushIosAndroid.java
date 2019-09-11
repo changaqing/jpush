@@ -31,7 +31,9 @@ public class JPushIosAndroid extends JPushBase {
                                 .setAlert(alert)
                                 .build())
                         .build())
-                .setMessage(Message.content(content))//消息内容 需要前端获取的 alert是可以看见的  content是看不见的
+                .setMessage(Message.newBuilder()
+                        .setMsgContent(content)
+                        .build())//消息内容 需要前端获取的 alert是可以看见的  content是看不见的
                 .setOptions(Options.newBuilder()
                         .setApnsProduction(apns)//默认为false 当为true时不用开发环境了
                         .build())
@@ -58,7 +60,12 @@ public class JPushIosAndroid extends JPushBase {
                                 .addExtra("url", url)
                                 .build())
                         .build())
-                .setMessage(Message.content(content))//消息内容 需要前端获取的 alert是可以看见的  content是看不见的
+                .setMessage(Message.newBuilder()
+                        .setMsgContent(content)
+                        .addExtra("id", id)
+                        .addExtra("type", type)
+                        .addExtra("url", url)
+                        .build())//消息内容 需要前端获取的 alert是可以看见的  content是看不见的
                 .setOptions(Options.newBuilder()
                         .setApnsProduction(apns)//默认为false 当为true时不用开发环境了
                         .build())

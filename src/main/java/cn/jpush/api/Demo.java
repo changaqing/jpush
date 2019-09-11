@@ -19,19 +19,18 @@ public class Demo extends JPushInit {
         init("", "");
 
         //不带附加参数  alert：标题    content：内容  aliases：别名  apns：默认为false true是生产环境
-        final JPushIosAndroid jPushIosAndroid =
-                new JPushIosAndroid("测试一下", "哈哈哈哈哈1", Arrays.asList("2008","aca089a18d7712e3d69cd872a519cf5ff691d3956018a617bb0b4c8be6238f31"), false);
+//        final JPushIosAndroid jPushIosAndroid =
+//                new JPushIosAndroid("测试一下", "哈哈哈哈哈1", Arrays.asList("2008","zhishi1517bfd3f7bf398aa10"), false);
 
 
         //带附加参数  id:内容id   type：消息类型   url：跳转链接
-//        JPushIosAndroid jPushIosAndroid2 =
-//                new JPushIosAndroid("定时任务测试一下", "哈哈哈哈哈1", Arrays.asList("2008"), false, "oid", 1, "http://www.baidu.com");
+        JPushIosAndroid jPushIosAndroid2 =
+                new JPushIosAndroid("定时任务测试一下", "哈哈哈哈哈1", Arrays.asList("2008","zhishi1517bfd3f7bf398aa10"), false, "这是附加参数的id", 1, "http://www.baidu.com");
 
         try {
             //基础通知测试
-            System.out.println(jPushIosAndroid.push().toString());
-//            LOGGER.info(jPushIosAndroid.push().toString()); aca089a18d7712e3d69cd872a519cf5ff691d3956018a617bb0b4c8be6238f31
-
+//            System.out.println(jPushIosAndroid.push().toString());
+            LOGGER.info(jPushIosAndroid2.push().toString());
 
             //定时通知测试执行时间必须大于现在时间
 //            Date date = new Date();

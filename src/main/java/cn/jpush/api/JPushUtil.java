@@ -12,7 +12,7 @@ import java.util.concurrent.*;
 public class JPushUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JPushUtil.class);
     //在极光注册上传应用的 appKey 和 masterSecret
-    public static String appKey = null;////必填，例如466f7032ac604e02fb7bda89
+    public static String appKey = null;////必填
     public static String masterSecret = null;//必填，每个应用都对应一个masterSecret
     public static JPushClient jpushClient;
     public static ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();//单线程定时任务

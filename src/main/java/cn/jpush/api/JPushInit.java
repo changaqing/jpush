@@ -13,7 +13,10 @@ public abstract class JPushInit {
     public static JPushClient init(String appKey, String masterSecret) {
         JPushUtil.appKey = appKey;
         JPushUtil.masterSecret = masterSecret;
-        JPushUtil.jpushClient = new JPushClient(masterSecret, appKey, null, ClientConfig.getInstance());
+        ClientConfig instance = ClientConfig.getInstance();
+        instance.setTimeToLive(86400);//保留一天
+        JPushUtil.jpushClient = new JPushClient(masterSecret, appKey, null, instance);
+//        JPushUtil.jpushClient = new JPushClient(masterSecret, appKey, null, ClientConfig.getInstance());
         return JPushUtil.jpushClient;
     }
 }
